@@ -1,4 +1,5 @@
 import "@logseq/libs";
+import { SettingSchemaDesc } from '@logseq/libs/dist/LSPlugin'
 import { Client } from '@notionhq/client'
 
 import React from "react";
@@ -9,22 +10,37 @@ import { logseq as PL } from "../package.json";
 
 import "./index.css";
 
-// TODO
-const notionToken = ''
-const logseqPageId = ''
-
 // @ts-expect-error
 const css = (t, ...args) => String.raw(t, ...args);
 
 const pluginId = PL.id;
 
-const notion = new Client({
-  auth: notionToken,
-})
+const settingsSchema: SettingSchemaDesc[] = [
+  {
+    title: 'Notion API Key',
+    key: 'notionApiKey',
+    type: 'string',
+    description: 'Your OpenAI API key. You can get one at https://www.notion.so/my-integrations',
+    default: '',
+  },
+  {
+    title: 'Page ID',
+    key: 'pageId',
+    type: 'string',
+    description: 'You can get one at https://developers.notion.com/docs/working-with-page-content#creating-a-page-with-content',
+    default: '',
+  }
+]
+
+logseq.useSettingsSchema(settingsSchema)
 
 function main() {
   console.info(`#${pluginId}: MAIN`);
+
   const root = ReactDOM.createRoot(document.getElementById("app")!);
+  const notion = new Client({
+    auth: logseq.settings?.notionApiKey
+  })
 
   root.render(
     <React.StrictMode>
@@ -67,6 +83,15 @@ function main() {
   });
 
   logseq.Editor.registerSlashCommand('sync page to notion', async () => {
+    if (!logseq.settings?.notionApiKey) {
+      logseq.UI.showMsg('Notion API Key is not set', 'error')
+      return
+    }
+    if (!logseq.settings?.pageId) {
+      logseq.UI.showMsg('Page ID is not set', 'error')
+      return
+    }
+
     notion.pages.create({
       "cover": {
         "type": "external",
@@ -80,7 +105,7 @@ function main() {
       },
       "parent": {
         "type": "page_id",
-        "page_id": logseqPageId
+        "page_id": logseq.settings?.pageId
       },
       "properties": {
         "title": {
@@ -131,6 +156,15 @@ function main() {
   })
 
   logseq.Editor.registerSlashCommand('sync block to notion', async () => {
+    if (!logseq.settings?.notionApiKey) {
+      logseq.UI.showMsg('Notion API Key is not set', 'error')
+      return
+    }
+    if (!logseq.settings?.pageId) {
+      logseq.UI.showMsg('Page ID is not set', 'error')
+      return
+    }
+
     const currentBlock = await logseq.Editor.getCurrentBlock()
 
     if (!currentBlock?.content) {
@@ -138,7 +172,7 @@ function main() {
     }
 
     notion.blocks.children.append({
-      block_id: logseqPageId,
+      block_id: logseq.settings?.pageId,
       children: [
         {
           "paragraph": {
