@@ -6,6 +6,7 @@ import React from "react";
 import * as ReactDOM from "react-dom/client";
 
 import App from "./App";
+import { parseBlock } from "./utils";
 import { logseq as PL } from "../package.json";
 
 import "./index.css";
@@ -110,21 +111,7 @@ function main() {
       return
     }
 
-    const contents = pageBlocksTree.map(i => {
-      // TODO: 暂时先全用 paragraph 吧
-      return ({
-        object: 'block',
-        paragraph: {
-          rich_text: [
-            {
-              text: {
-                content: i.content
-              }
-            }
-          ]
-        }
-      })
-    })
+    const contents = pageBlocksTree.map(i => parseBlock(i))
 
     const pageInfo = {
       "parent": {
@@ -179,25 +166,14 @@ function main() {
 
     const currentBlock = await logseq.Editor.getCurrentBlock()
 
-    if (!currentBlock?.content) {
+    if (!currentBlock) {
+      logseq.UI.showMsg('No block selected', 'error')
       return
     }
 
     notion.blocks.children.append({
       block_id: logseq.settings?.pageId,
-      children: [
-        {
-          "paragraph": {
-            "rich_text": [
-              {
-                "text": {
-                  "content": currentBlock.content
-                }
-              }
-            ]
-          }
-        }
-      ],
+      children: [parseBlock(currentBlock)],
     }).then(response => {
       logseq.UI.showMsg('Block saved successfully 🎉', 'success')
     }).catch(error => {
