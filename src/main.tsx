@@ -92,63 +92,75 @@ function main() {
       return
     }
 
-    notion.pages.create({
-      "cover": {
-        "type": "external",
-        "external": {
-          "url": "https://upload.wikimedia.org/wikipedia/commons/6/62/Tuscankale.jpg"
+    const block = await logseq.Editor.getCurrentBlock()
+    if (!block) {
+      logseq.UI.showMsg('No block selected', 'error')
+      return
+    }
+    const page = await logseq.Editor.getPage(block?.parent?.id)
+    if (!page) {
+      logseq.UI.showMsg('Page not found', 'error')
+      return
+    }
+    // TODO: 为什么这里传入 pageName 能返回结果而 pageId 不行？看了 github 上好多也都是 paegName
+    const pageBlocksTree = await logseq.Editor.getPageBlocksTree(page?.name)
+
+    if (!pageBlocksTree.length) {
+      logseq.UI.showMsg('Page not found', 'error')
+      return
+    }
+
+    const contents = pageBlocksTree.map(i => {
+      // TODO: 暂时先全用 paragraph 吧
+      return ({
+        object: 'block',
+        paragraph: {
+          rich_text: [
+            {
+              text: {
+                content: i.content
+              }
+            }
+          ]
         }
-      },
-      "icon": {
-        "type": "emoji",
-        "emoji": "🥬"
-      },
+      })
+    })
+
+    const pageInfo = {
       "parent": {
         "type": "page_id",
         "page_id": logseq.settings?.pageId
       },
+      // "cover": {
+      //   "type": "external",
+      //   "external": {
+      //     "url": "https://upload.wikimedia.org/wikipedia/commons/6/62/Tuscankale.jpg"
+      //   }
+      // },
       "properties": {
         "title": {
           "title": [
             {
               "text": {
-                "content": "Tuscan kale"
+                "content": page?.name
               }
             }
           ]
         },
       },
-      "children": [
-        {
-          "object": "block",
-          "heading_2": {
-            "rich_text": [
-              {
-                "text": {
-                  "content": "Lacinato kale"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "object": "block",
-          "paragraph": {
-            "rich_text": [
-              {
-                "text": {
-                  "content": "Lacinato kale is a variety of kale with a long tradition in Italian cuisine, especially that of Tuscany. It is also known as Tuscan kale, Italian kale, dinosaur kale, kale, flat back kale, palm tree kale, or black Tuscan palm.",
-                  "link": {
-                    "url": "https://en.wikipedia.org/wiki/Lacinato_kale"
-                  }
-                },
-              }
-            ],
-            "color": "default"
-          }
-        }
-      ]
-    }).then(response => {
+      "children": contents,
+    }
+    
+    if (page?.properties?.icon) {
+      pageInfo.icon = {
+        type: 'emoji',
+        emoji: page.properties.icon
+      }
+    }
+
+    notion.pages.create(
+      pageInfo,
+    ).then(response => {
       logseq.UI.showMsg('Page saved successfully 🎉', 'success')
     }).catch(error => {
       logseq.UI.showMsg(error, 'error')
