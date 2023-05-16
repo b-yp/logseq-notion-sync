@@ -25,6 +25,8 @@ export const useAppVisible = () => {
 };
 
 export const parseBlock = (block: BlockEntity) => {
+  console.log('block', block)
+
   // task
   if (block?.marker) {
     const regex = /^(TODO|DOING|NOW|LATER) /g
@@ -104,6 +106,31 @@ export const parseBlock = (block: BlockEntity) => {
     })
   }
 
+  // code block
+  const codeBlockRegexp = /^```(\w+)\n([\s\S]+)```$/
+  const codeBlockMatch = block?.content.match(codeBlockRegexp)
+  if (codeBlockMatch) {
+    const language = codeBlockMatch[1]
+    const content = codeBlockMatch[2].trim()
+    const languageMap = {
+      js: 'javascript',
+      ts: 'typescript',
+      py: 'python',
+      rb: 'ruby',
+    };
+
+    const fullForm = languageMap[language.toLowerCase()] || language
+    
+    return ({
+      code: {
+        rich_text: [{
+          text: { content }
+        }],
+        language: fullForm,
+      }
+    })
+  }
+  
   // TODO
   return ({
     paragraph: {
