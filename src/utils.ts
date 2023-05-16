@@ -43,7 +43,12 @@ export const parseBlock = (block: BlockEntity) => {
         checked: false,
       }
     }
-    if (block?.marker === 'TODO' || block?.marker === 'NOW') {
+    if (
+      block?.marker === 'TODO' ||
+      block?.marker === 'DOING' ||
+      block?.marker === 'LATER' ||
+      block?.marker === 'NOW'
+    ) {
       return taskObject
     }
     if (block?.marker === 'DONE') {
@@ -51,6 +56,52 @@ export const parseBlock = (block: BlockEntity) => {
       return taskObject
     }
     return taskObject
+  }
+
+  // text with link
+  if (/.*?\[.*?\]\(.*?\).*?/.test(block?.content)) {
+    const convertText = (text: string) => {
+      const regex = /\[(.*?)\]\((.*?)\)/g
+      const matches = [...text.matchAll(regex)]
+      const result = []
+      let lastIndex = 0
+      matches.forEach(match => {
+        const [, beforeText, url] = match
+
+        if (beforeText) {
+          result.push({
+            text: {
+              content: text.substring(lastIndex, match.index),
+            },
+          })
+        }
+
+        result.push({
+          text: {
+            content: beforeText,
+            ...(url ? { link: { url } } : {}),
+          },
+        })
+
+        lastIndex = (match?.index || 0) + match[0].length;
+      })
+
+      if (lastIndex < text.length) {
+        result.push({
+          text: {
+            content: text.substring(lastIndex),
+          },
+        })
+      }
+
+      return result
+    }
+
+    return ({
+      paragraph: {
+        rich_text: convertText(block.content)
+      }
+    })
   }
 
   // TODO
