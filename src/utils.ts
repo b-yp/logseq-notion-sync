@@ -2,6 +2,8 @@ import { BlockEntity } from '@logseq/libs/dist/LSPlugin'
 import { LSPluginUserEvents } from "@logseq/libs/dist/LSPlugin.user";
 import React from "react";
 
+import { RichText } from './types';
+
 let _visible = logseq.isMainUIVisible;
 
 function subscribeLogseqEvent<T extends LSPluginUserEvents>(
@@ -34,14 +36,7 @@ export const parseBlock = (block: BlockEntity) => {
     const taskObject = {
       type: 'to_do',
       to_do: {
-        rich_text: [
-          {
-            type: 'text',
-            text: {
-              content: content,
-            }
-          }
-        ],
+        rich_text: parseContent(content),
         checked: false,
       }
     }
@@ -60,8 +55,77 @@ export const parseBlock = (block: BlockEntity) => {
     return taskObject
   }
 
-  // text with link
-  if (/.*?\[.*?\]\(.*?\).*?/.test(block?.content)) {
+  // code block
+  const codeBlockRegexp = /^```(\w+)\n([\s\S]+)```$/
+  const codeBlockMatch = block?.content.match(codeBlockRegexp)
+  if (codeBlockMatch) {
+    const language = codeBlockMatch[1]
+    const content = codeBlockMatch[2].trim()
+    const languageMap = {
+      js: 'javascript',
+      ts: 'typescript',
+      py: 'python',
+      rb: 'ruby',
+    };
+
+    const fullForm = languageMap[language.toLowerCase()] || language
+
+    return ({
+      code: {
+        rich_text: [{
+          text: { content }
+        }],
+        language: fullForm,
+      }
+    })
+  }
+
+  // blockquote
+  if (/^> (.*)$/.test(block?.content)) {
+    return ({
+      quote: {
+        rich_text: parseContent(block?.content.substring(2)),
+      }
+    })
+  }
+
+  // title1
+  if(/^# (.*)$/.test(block.content)) {
+    return ({
+      heading_1: {
+        rich_text: parseContent(block?.content.substring(2))
+      }
+    })
+  }
+
+  // title2
+  if(/^## (.*)$/.test(block.content)) {
+    return ({
+      heading_2: {
+        rich_text: parseContent(block?.content.substring(3))
+      }
+    })
+  }
+
+  // title3
+  if(/^### (.*)$/.test(block.content)) {
+    return ({
+      heading_3: {
+        rich_text: parseContent(block?.content.substring(4))
+      }
+    })
+  }
+
+  // TODO
+  return ({
+    paragraph: {
+      rich_text: parseContent(block?.content)
+    }
+  })
+}
+
+const parseContent = (content: string): RichText[] => {
+  if (/.*?\[.*?\]\(.*?\).*?/.test(content)) {
     const convertText = (text: string) => {
       const regex = /\[(.*?)\]\((.*?)\)/g
       const matches = [...text.matchAll(regex)]
@@ -99,48 +163,12 @@ export const parseBlock = (block: BlockEntity) => {
       return result
     }
 
-    return ({
-      paragraph: {
-        rich_text: convertText(block.content)
-      }
-    })
+    return convertText(content)
   }
 
-  // code block
-  const codeBlockRegexp = /^```(\w+)\n([\s\S]+)```$/
-  const codeBlockMatch = block?.content.match(codeBlockRegexp)
-  if (codeBlockMatch) {
-    const language = codeBlockMatch[1]
-    const content = codeBlockMatch[2].trim()
-    const languageMap = {
-      js: 'javascript',
-      ts: 'typescript',
-      py: 'python',
-      rb: 'ruby',
-    };
-
-    const fullForm = languageMap[language.toLowerCase()] || language
-    
-    return ({
-      code: {
-        rich_text: [{
-          text: { content }
-        }],
-        language: fullForm,
-      }
-    })
-  }
-  
-  // TODO
-  return ({
-    paragraph: {
-      rich_text: [
-        {
-          text: {
-            content: block.content
-          }
-        }
-      ]
+  return ([{
+    text: {
+      content,
     }
-  })
+  }])
 }
