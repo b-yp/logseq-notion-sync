@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/b-yp/logseq-notion-sync/compare/v1.0.0...v1.1.0) (2023-05-20)
+
+
+### Features
+
+* add LICENSE ([53fc99f](https://github.com/b-yp/logseq-notion-sync/commit/53fc99f64d942a000740243cdca635b2b5d59a78))
+
 # 1.0.0 (2023-05-20)
 
 
