@@ -1,5 +1,5 @@
 {
-  "name": "logseq-plugin-template-react",
+  "name": "logseq-notion-sync",
   "version": "0.0.0",
   "main": "dist/index.html",
   "scripts": {
@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "@logseq/libs": "^0.0.14",
+    "@notionhq/client": "^2.2.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
@@ -37,7 +38,7 @@
     "vite-plugin-logseq": "1.1.2"
   },
   "logseq": {
-    "id": "_pengx17-logseq-template-react",
+    "id": "byp-logseq-notion-sync-plugin",
     "icon": "./logo.svg"
   }
 }
