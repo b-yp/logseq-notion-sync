@@ -90,7 +90,7 @@ export const parseBlock = (block: BlockEntity) => {
   }
 
   // title1
-  if(/^# (.*)$/.test(block.content)) {
+  if (/^# (.*)$/.test(block.content)) {
     return ({
       heading_1: {
         rich_text: parseContent(block?.content.substring(2))
@@ -99,7 +99,7 @@ export const parseBlock = (block: BlockEntity) => {
   }
 
   // title2
-  if(/^## (.*)$/.test(block.content)) {
+  if (/^## (.*)$/.test(block.content)) {
     return ({
       heading_2: {
         rich_text: parseContent(block?.content.substring(3))
@@ -108,10 +108,35 @@ export const parseBlock = (block: BlockEntity) => {
   }
 
   // title3
-  if(/^### (.*)$/.test(block.content)) {
+  if (/^### (.*)$/.test(block.content)) {
     return ({
       heading_3: {
         rich_text: parseContent(block?.content.substring(4))
+      }
+    })
+  }
+
+  // table
+  if (/^\s*\|.*\|\s*\n\s*\|.*\|.*\|\s*\n((?:\|.*\|\s*\n)*)/.test(block?.content)) {
+    const isDivider = /.*\|.*---.*\|.*/.test(block.content)
+    const lines = block.content.trim().split('\n').filter((i, index) => isDivider ? index !== 1 : true)
+    const rows = lines.map(line => line.split('|').map(cell => cell.trim()).filter(i => !!i));
+    const children = rows.map(row => ({
+      table_row: {
+        cells: row.map(content => [{
+          text: {
+            content
+          }
+        }])
+      }
+    }))
+
+    return ({
+      table: {
+        table_width: 3,
+        has_column_header: isDivider,
+        has_row_header: false,
+        children,
       }
     })
   }
