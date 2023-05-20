@@ -1,3 +1,25 @@
+# 1.0.0 (2023-05-20)
+
+
+### Bug Fixes
+
+* Resolve build errors ([a6899ad](https://github.com/b-yp/logseq-notion-sync/commit/a6899ad518cd894630ed829a31a8d1c97d0ffef4))
+* Resolve build errors 2 ([1285706](https://github.com/b-yp/logseq-notion-sync/commit/12857060c9bce865da6e784917c11d44e170f60b))
+* update config ([b912298](https://github.com/b-yp/logseq-notion-sync/commit/b9122982afec8589bad6e3a5dd56a7076e2b1325))
+
+
+### Features
+
+* Add plugin configuration settings ([bdd00ff](https://github.com/b-yp/logseq-notion-sync/commit/bdd00ffd3c95662f5dc801cdfa0a91b11a10da0e))
+* Implementing the parseBlock function to parse blockquote & heading ([61b3dea](https://github.com/b-yp/logseq-notion-sync/commit/61b3dea0b5d10fd6ce1f003ef4807d77a92481e7))
+* Implementing the parseBlock function to parse code block ([c85b02b](https://github.com/b-yp/logseq-notion-sync/commit/c85b02bb11a94d3e20e0e12686944551a1b27f8b))
+* Implementing the parseBlock function to parse table ([b7441f2](https://github.com/b-yp/logseq-notion-sync/commit/b7441f24b869e67bac183afbd02ef52f38bde1c9))
+* Implementing the parseBlock function to parse task ([127d11d](https://github.com/b-yp/logseq-notion-sync/commit/127d11d5fc21152f4494b0a3b10252cbb7740b7d))
+* Implementing the parseBlock function to parse text with link ([74f9e8f](https://github.com/b-yp/logseq-notion-sync/commit/74f9e8f603b30f2e9751d33d83c24b48d30967e6))
+* page content sync ([ca80e2a](https://github.com/b-yp/logseq-notion-sync/commit/ca80e2a7cbeba25417f4e7585b135875452dc500))
+* The slash command saves page and block to Notion ([a55b75e](https://github.com/b-yp/logseq-notion-sync/commit/a55b75ef2cb3a77628765811f58b0deed32566d7))
+* update README & logo ([0c1d0d9](https://github.com/b-yp/logseq-notion-sync/commit/0c1d0d951192e17cf61e24cbbffab9a503e4ebeb))
+
 ## [2.1.1](https://github.com/pengx17/logseq-plugin-template-react/compare/v2.1.0...v2.1.1) (2022-03-24)
 
 
