@@ -1,0 +1,21 @@
+[English document](./README.md)
+
+- # logseq-notion-sync [[2023-05-20 Saturday]]
+	- 这个插件帮你将 Logseq 内容同步至 [Notion](https://notion.so/)
+- ## 功能
+	- 标题
+	- 带链接的文本
+	- 待办事项
+	- 代码块
+	- 引用块
+	- 表格
+- ## 用法
+	- 第一次使用，请填写 `Notion API key` 和 `Page ID`
+		- `Notion API key` 获取链接: https://www.notion.so/my-integrations
+		- `Page ID` 获取链接: https://developers.notion.com/docs/working-with-page-content#creating-a-page-with-content
+	- 在任意块输入斜杆命令： `sync block to notion`，则将当前块内容同步至 Notion
+	- 在任意块输入斜杆命令： `sync page to notion`，则将当前块所在的整个页面同步至 Notion
+- ## 演示
+	- ![demo](./logseq-to-notion.gif)
+- ## 许可证
+	- [MIT](https://choosealicense.com/licenses/mit/)

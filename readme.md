@@ -1,18 +1,21 @@
-# Logseq Plugin Template React 🚀
+[中文文档](./README_CN.md)
 
-## Features
-
-- Plug-and-play boilerplate with properly defined GitHub action defaults
-- Develop with HMR, empowered by lightning-fast Vite ⚡ with [vite-logseq-plugin](https://github.com/pengx17/vite-plugin-logseq)
-- TailwindCSS for styling
-- Pnpm
-
-## How to get started
-1. Clone the repository or use the button "Use this template" on GitHub to create your own version of the repository 🔨
-2. Make sure you have pnpm installed, [install](https://pnpm.io/installation) if necessary 🛠
-3. Execute `pnpm install` 📦
-4. Change the plugin-name in `package.json` to your liking. Adapt both the package-name and the plugin-id at the bottom of the `package.json`. Make sure that they are not conflicting with plugins you already installed. 📝
-5. Execute `pnpm build` to build the plugin 🚧
-6. Enable developer-mode in Logseq, go to plugins, select "Load unpacked plugin" 🔌
-7. Select the directory of your plugin (not the `/dist`-directory, but the directory which includes your package.json) 📂
-8. Enjoy! 🎉
+- # logseq-notion-sync [[2023-05-20 Saturday]]
+	- This plugin helps you synchronize Logseq content with [Notion](https://notion.so/).
+- ## Features
+	- Headings
+	- Linked text
+	- Todo items
+	- Code blocks
+	- Block quotes
+	- Tables
+- ## Usage
+	- For the initial setup, please provide your `Notion API key` and `Page ID`
+		- Get `Notion API key` from this link: https://www.notion.so/my-integrations
+		- Get `Page ID` from this link: https://developers.notion.com/docs/working-with-page-content#creating-a-page-with-content
+	- To sync the content of the current block to Notion, type the slash command: `sync block to notion`
+	- To sync the entire page containing the current block to Notion, type the slash command: `sync page to notion`
+- ## Demo
+	- ![demo](./logseq-to-notion.gif)
+- ## License
+	- [MIT](https://choosealicense.com/licenses/mit/)
