@@ -68,6 +68,7 @@ export const parseBlock = (block: BlockEntity) => {
       rb: 'ruby',
     };
 
+    // @ts-ignore
     const fullForm = languageMap[language.toLowerCase()] || language
 
     return ({

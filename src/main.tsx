@@ -113,7 +113,7 @@ function main() {
 
     const contents = pageBlocksTree.map(i => parseBlock(i))
 
-    const pageInfo = {
+    const pageInfo: any = {
       "parent": {
         "type": "page_id",
         "page_id": logseq.settings?.pageId
@@ -123,6 +123,10 @@ function main() {
       //   "external": {
       //     "url": "https://upload.wikimedia.org/wikipedia/commons/6/62/Tuscankale.jpg"
       //   }
+      // },
+      // "icon": {
+      //   "type": "emoji",
+      //   "emoji": "🥬"
       // },
       "properties": {
         "title": {
@@ -137,7 +141,7 @@ function main() {
       },
       "children": contents,
     }
-    
+
     if (page?.properties?.icon) {
       pageInfo.icon = {
         type: 'emoji',
@@ -173,7 +177,7 @@ function main() {
 
     notion.blocks.children.append({
       block_id: logseq.settings?.pageId,
-      children: [parseBlock(currentBlock)],
+      children: [parseBlock(currentBlock)] as any,
     }).then(response => {
       logseq.UI.showMsg('Block saved successfully 🎉', 'success')
     }).catch(error => {
