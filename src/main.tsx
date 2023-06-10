@@ -6,7 +6,7 @@ import React from "react";
 import * as ReactDOM from "react-dom/client";
 
 import App from "./App";
-import { parseBlock } from "./utils";
+import { parseBlock, calculateDepth } from "./utils";
 import { logseq as PL } from "../package.json";
 
 import "./index.css";
@@ -98,7 +98,7 @@ function main() {
       logseq.UI.showMsg('No block selected', 'error')
       return
     }
-    const page = await logseq.Editor.getPage(block?.parent?.id)
+    const page = await logseq.Editor.getPage(block?.page?.id)
     if (!page) {
       logseq.UI.showMsg('Page not found', 'error')
       return
@@ -112,6 +112,12 @@ function main() {
     }
 
     const contents = pageBlocksTree.map(i => parseBlock(i))
+
+    // 判断一下 block 的深度，因为超过 3 请求接口会报错
+    if (contents.map(i => calculateDepth(i))?.filter(i => i > 2)?.length > 0) {
+      logseq.UI.showMsg('The block level cannot exceed 3', 'warning')
+      return
+    }
 
     const pageInfo: any = {
       "parent": {

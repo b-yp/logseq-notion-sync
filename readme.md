@@ -13,6 +13,8 @@
 	- For the initial setup, please provide your `Notion API key` and `Page ID`
 		- Get `Notion API key` from this link: https://www.notion.so/my-integrations
 		- Get `Page ID` from this link: https://developers.notion.com/docs/working-with-page-content#creating-a-page-with-content
+		- Notice: `Add connections`
+			- ![Add connections](./add_connections.png)
 	- To sync the content of the current block to Notion, type the slash command: `sync block to notion`
 	- To sync the entire page containing the current block to Notion, type the slash command: `sync page to notion`
 - ## Demo
