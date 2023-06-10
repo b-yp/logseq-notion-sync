@@ -57,7 +57,7 @@ export const parseBlock = (block: BlockEntity) => {
 
   // code block
   const codeBlockRegexp = /^```(\w+)\n([\s\S]+)```$/
-  const codeBlockMatch = block?.content.match(codeBlockRegexp)
+  const codeBlockMatch = block?.content?.match(codeBlockRegexp)
   if (codeBlockMatch) {
     const language = codeBlockMatch[1]
     const content = codeBlockMatch[2].trim()
@@ -85,7 +85,7 @@ export const parseBlock = (block: BlockEntity) => {
   if (/^> (.*)$/.test(block?.content)) {
     return ({
       quote: {
-        rich_text: parseContent(block?.content.substring(2)),
+        rich_text: parseContent(block?.content?.substring(2)),
       }
     })
   }
@@ -94,7 +94,7 @@ export const parseBlock = (block: BlockEntity) => {
   if (/^# (.*)$/.test(block.content)) {
     return ({
       heading_1: {
-        rich_text: parseContent(block?.content.substring(2))
+        rich_text: parseContent(block?.content?.substring(2))
       }
     })
   }
@@ -103,7 +103,7 @@ export const parseBlock = (block: BlockEntity) => {
   if (/^## (.*)$/.test(block.content)) {
     return ({
       heading_2: {
-        rich_text: parseContent(block?.content.substring(3))
+        rich_text: parseContent(block?.content?.substring(3))
       }
     })
   }
@@ -112,7 +112,7 @@ export const parseBlock = (block: BlockEntity) => {
   if (/^### (.*)$/.test(block.content)) {
     return ({
       heading_3: {
-        rich_text: parseContent(block?.content.substring(4))
+        rich_text: parseContent(block?.content?.substring(4))
       }
     })
   }
@@ -140,6 +140,21 @@ export const parseBlock = (block: BlockEntity) => {
         children,
       }
     })
+  }
+
+  // toggle
+  if (block?.children && block.children.length !== 0) {
+    const toggleBlock = {
+      toggle: {
+        rich_text: parseContent(block?.content)
+      },
+    }
+    
+    if (block?.children && block.children.length !== 0) {
+      toggleBlock.toggle.children = block?.children.map(i => parseBlock(i))
+    }
+
+    return toggleBlock
   }
 
   // TODO
@@ -197,4 +212,13 @@ const parseContent = (content: string): RichText[] => {
       content,
     }
   }])
+}
+
+// 计算 block 的深度
+export const calculateDepth = (node: Node): number => {
+  if (!node.toggle || !node.toggle.children || node.toggle.children.length === 0) {
+    return 0;
+  } else {
+    return 1 + Math.max(...node.toggle.children.map(calculateDepth));
+  }
 }
