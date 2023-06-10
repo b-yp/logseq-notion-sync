@@ -151,7 +151,7 @@ export const parseBlock = (block: BlockEntity) => {
     }
     
     if (block?.children && block.children.length !== 0) {
-      toggleBlock.toggle.children = block?.children.map(i => parseBlock(i))
+      toggleBlock.toggle.children = block?.children.map(i => parseBlock(i as BlockEntity))
     }
 
     return toggleBlock
@@ -215,7 +215,7 @@ const parseContent = (content: string): RichText[] => {
 }
 
 // 计算 block 的深度
-export const calculateDepth = (node): number => {
+export const calculateDepth = (node: any): number => {
   if (!node.toggle || !node.toggle.children || node.toggle.children.length === 0) {
     return 0;
   } else {
