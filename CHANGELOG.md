@@ -1,3 +1,17 @@
+# [1.3.0](https://github.com/b-yp/logseq-notion-sync/compare/v1.2.0...v1.3.0) (2023-06-10)
+
+
+### Bug Fixes
+
+* Fix build error ([55b7ff9](https://github.com/b-yp/logseq-notion-sync/commit/55b7ff98b379ce43c02d771730987394e6b7076d))
+* Fix release error ([8869d96](https://github.com/b-yp/logseq-notion-sync/commit/8869d96f43c1801748e434bd403a079a59f37dfb))
+
+
+### Features
+
+* Parsing nested blocks ([fbfae3f](https://github.com/b-yp/logseq-notion-sync/commit/fbfae3fc8893d96c1c0289755d71c3785182b80d))
+* update readme ([9b870ef](https://github.com/b-yp/logseq-notion-sync/commit/9b870ef96e16a9ba483343f041bccd3f2fde9fae))
+
 # [1.2.0](https://github.com/b-yp/logseq-notion-sync/compare/v1.1.0...v1.2.0) (2023-05-20)
 
 
