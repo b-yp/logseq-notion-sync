@@ -144,7 +144,7 @@ export const parseBlock = (block: BlockEntity) => {
 
   // toggle
   if (block?.children && block.children.length !== 0) {
-    const toggleBlock = {
+    const toggleBlock: any = {
       toggle: {
         rich_text: parseContent(block?.content)
       },
@@ -215,7 +215,7 @@ const parseContent = (content: string): RichText[] => {
 }
 
 // 计算 block 的深度
-export const calculateDepth = (node: Node): number => {
+export const calculateDepth = (node): number => {
   if (!node.toggle || !node.toggle.children || node.toggle.children.length === 0) {
     return 0;
   } else {
