@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/b-yp/logseq-notion-sync/compare/v1.3.0...v1.3.1) (2023-06-16)
+
+
+### Bug Fixes
+
+* Fix request error causing program crash ([698cf2f](https://github.com/b-yp/logseq-notion-sync/commit/698cf2f3df96e8e00fd7ba3d014d388c55a1b637))
+
 # [1.3.0](https://github.com/b-yp/logseq-notion-sync/compare/v1.2.0...v1.3.0) (2023-06-10)
 
 
