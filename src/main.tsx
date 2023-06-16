@@ -160,7 +160,7 @@ function main() {
     ).then(response => {
       logseq.UI.showMsg('Page saved successfully 🎉', 'success')
     }).catch(error => {
-      logseq.UI.showMsg(error, 'error')
+      logseq.UI.showMsg(JSON.stringify( Object.keys(error).length !== 0 ? (error.message || error) : '请求失败' ), 'error')
     })
   })
 
@@ -188,7 +188,7 @@ function main() {
       logseq.UI.showMsg('Block saved successfully 🎉', 'success')
     }).catch(error => {
       console.error('error', error)
-      logseq.UI.showMsg(error, 'error')
+      logseq.UI.showMsg(JSON.stringify( Object.keys(error).length !== 0 ? (error.message || error) : '请求失败' ), 'error')
     })
   })
 }
