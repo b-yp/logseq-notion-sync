@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/b-yp/logseq-notion-sync/compare/v1.3.1...v1.4.0) (2023-06-20)
+
+
+### Features
+
+* update logo ([1215418](https://github.com/b-yp/logseq-notion-sync/commit/1215418c68880a1cb8db1cbd8104c376b02d75c4))
+
 ## [1.3.1](https://github.com/b-yp/logseq-notion-sync/compare/v1.3.0...v1.3.1) (2023-06-16)
 
 
