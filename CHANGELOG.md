@@ -1,3 +1,11 @@
+## [1.4.1](https://github.com/b-yp/logseq-notion-sync/compare/v1.4.0...v1.4.1) (2023-08-22)
+
+
+### Bug Fixes
+
+* Fix the issue of title children being out of sync & cancel toggle blocks ([b9e8273](https://github.com/b-yp/logseq-notion-sync/commit/b9e82733cdc001d770e6f421ae8962eca3021cfc))
+* Remove block depth limit ([675365d](https://github.com/b-yp/logseq-notion-sync/commit/675365dc724d5bec2aa72b6a55b1ea20d22e3796))
+
 # [1.4.0](https://github.com/b-yp/logseq-notion-sync/compare/v1.3.1...v1.4.0) (2023-06-20)
 
 
