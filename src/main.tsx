@@ -6,7 +6,7 @@ import React from "react";
 import * as ReactDOM from "react-dom/client";
 
 import App from "./App";
-import { parseBlock, calculateDepth } from "./utils";
+import { parseBlock, calculateDepth, parseTree } from "./utils";
 import { logseq as PL } from "../package.json";
 
 import "./index.css";
@@ -111,7 +111,7 @@ function main() {
       return
     }
 
-    const contents = pageBlocksTree.map(i => parseBlock(i))
+    const contents = parseTree(pageBlocksTree)
 
     // 判断一下 block 的深度，因为超过 3 请求接口会报错
     if (contents.map(i => calculateDepth(i))?.filter(i => i > 2)?.length > 0) {
