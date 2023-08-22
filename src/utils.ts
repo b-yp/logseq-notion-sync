@@ -143,19 +143,17 @@ export const parseBlock = (block: BlockEntity) => {
   }
 
   // toggle
-  if (block?.children && block.children.length !== 0) {
-    const toggleBlock: any = {
-      toggle: {
-        rich_text: parseContent(block?.content)
-      },
-    }
-    
-    if (block?.children && block.children.length !== 0) {
-      toggleBlock.toggle.children = block?.children.map(i => parseBlock(i as BlockEntity))
-    }
-
-    return toggleBlock
-  }
+  // if (block?.children && block.children.length !== 0) {
+  //   const toggleBlock: any = {
+  //     toggle: {
+  //       rich_text: parseContent(block?.content)
+  //     },
+  //   }
+  //   if (block?.children && block.children.length !== 0) {
+  //     toggleBlock.toggle.children = block?.children.map(i => parseBlock(i as BlockEntity))
+  //   }
+  //   return toggleBlock
+  // }
 
   // TODO
   return ({
@@ -221,4 +219,17 @@ export const calculateDepth = (node: any): number => {
   } else {
     return 1 + Math.max(...node.toggle.children.map(calculateDepth));
   }
+}
+
+export const parseTree: any = (tree: BlockEntity[]) => {
+  let array: any = []
+  tree.map(block => {
+    if (block.children && block.children.length > 0) {
+      array.push(parseBlock(block))
+      array = array.concat(parseTree(block.children))
+    } else {
+      array.push(parseBlock(block))
+    }
+  })
+  return array
 }
